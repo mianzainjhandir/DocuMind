@@ -3,12 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SocialLoginButtons extends StatelessWidget {
   final VoidCallback onGoogleTap;
-  final VoidCallback onFacebookTap;
+  final VoidCallback onMicroSoftTap;
 
   const SocialLoginButtons({
     super.key,
     required this.onGoogleTap,
-    required this.onFacebookTap,
+    required this.onMicroSoftTap,
   });
 
   @override
@@ -65,9 +65,9 @@ class SocialLoginButtons extends StatelessWidget {
             // Facebook
             Expanded(
               child: _socialButton(
-                imagePath: "assets/images/img.png",
-                text: "Facebook",
-                onTap: onFacebookTap,
+                imagePath: "assets/images/img_1.png",
+                text: "MicroSoft",
+                onTap: onMicroSoftTap,
               ),
             ),
           ],

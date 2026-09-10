@@ -4,6 +4,8 @@ import 'package:documind/widget/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../widget/social_button.dart';
+
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
 
@@ -179,6 +181,15 @@ class _LogInPageState extends State<LogInPage> {
                 ],
               ),
               const SizedBox(height: 20),
+              SocialLoginButtons(
+                onGoogleTap: () {
+                  print("Google Login");
+                },
+
+                onMicroSoftTap: () {
+                  print("Facebook Login");
+                },
+              ),
             ],
           ),
         ),
