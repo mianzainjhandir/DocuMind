@@ -1,5 +1,6 @@
 
 import 'package:documind/views/logIn/logic.dart';
+import 'package:documind/widget/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,10 +14,11 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final LogInController controller = Get.put(LogInController());
   bool _rememberMe = false;
-  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
+    const Color indigoTheme = Color(0xFF3F51B5);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -74,49 +76,22 @@ class _LogInPageState extends State<LogInPage> {
                 ),
               ),
               const SizedBox(height: 30),
-              // Email Field
-              TextFormField(
+              // Email Field using CustomTextField
+              CustomTextField(
                 controller: controller.emailController,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  hintText: 'Email address',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
-                  ),
-                ),
+                hintText: 'Email address',
+                prefixIcon: Icons.email_outlined,
+                focusColor: indigoTheme,
+                keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 20),
-              // Password Field
-              TextFormField(
+              // Password Field using CustomTextField
+              CustomTextField(
                 controller: controller.passwordController,
-                obscureText: _obscurePassword,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  hintText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
-                  ),
-                ),
+                hintText: 'Password',
+                prefixIcon: Icons.lock_outline,
+                isPassword: true,
+                focusColor: indigoTheme,
               ),
               const SizedBox(height: 10),
               // Remember Me & Forgot Password
@@ -127,7 +102,7 @@ class _LogInPageState extends State<LogInPage> {
                     children: [
                       Checkbox(
                         value: _rememberMe,
-                        activeColor: const Color(0xFF3F51B5),
+                        activeColor: indigoTheme,
                         onChanged: (value) {
                           setState(() {
                             _rememberMe = value!;
@@ -142,7 +117,7 @@ class _LogInPageState extends State<LogInPage> {
                     child: const Text(
                       'Forgot password?',
                       style: TextStyle(
-                        color: Color(0xFF3F51B5),
+                        color: indigoTheme,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -159,7 +134,7 @@ class _LogInPageState extends State<LogInPage> {
                     controller.logIn();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3F51B5),
+                    backgroundColor: indigoTheme,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

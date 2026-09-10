@@ -5,9 +5,11 @@ class CustomTextField extends StatefulWidget {
   final String? labelText;
   final String? helperText;
   final String? prefixText;
+  final IconData? prefixIcon;
   final bool isPassword;
   final TextInputType keyboardType;
   final TextEditingController? controller;
+  final Color? focusColor;
 
   const CustomTextField({
     super.key,
@@ -15,9 +17,11 @@ class CustomTextField extends StatefulWidget {
     this.labelText,
     this.helperText,
     this.prefixText,
+    this.prefixIcon,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.controller,
+    this.focusColor,
   });
 
   @override
@@ -25,15 +29,12 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-
   final FocusNode _focusNode = FocusNode();
-
   bool _obscureText = true;
 
   @override
   void initState() {
     super.initState();
-
     _focusNode.addListener(() {
       setState(() {});
     });
@@ -47,115 +48,93 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-
     final bool isFocused = _focusNode.hasFocus;
+    final Color activeColor = widget.focusColor ?? Colors.deepOrange.shade300;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         TextField(
           controller: widget.controller,
           focusNode: _focusNode,
-
           keyboardType: widget.keyboardType,
-
-          obscureText: widget.isPassword
-              ? _obscureText
-              : false,
-
+          obscureText: widget.isPassword ? _obscureText : false,
           style: const TextStyle(
             fontSize: 14,
           ),
-
           decoration: InputDecoration(
-
             hintText: widget.hintText,
-
             hintStyle: TextStyle(
               color: Colors.grey.shade500,
               fontSize: 14,
             ),
-
-            prefixIcon: widget.prefixText != null
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 16, top: 14),
-                    child: Text(
-                      widget.prefixText!,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  )
-                : null,
-
+            prefixIcon: widget.prefixIcon != null
+                ? Icon(widget.prefixIcon, color: isFocused ? activeColor : Colors.grey)
+                : (widget.prefixText != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 16, top: 14),
+                        child: Text(
+                          widget.prefixText!,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
+                    : null),
             filled: true,
-
             fillColor: Colors.grey.shade50,
-
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 15,
             ),
-
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
                 color: Colors.grey.shade300,
               ),
             ),
-
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
                 color: Colors.grey.shade300,
               ),
             ),
-
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: Colors.deepOrange.shade300,
+                color: activeColor,
                 width: 1.5,
               ),
             ),
-
             // Password eye button
             suffixIcon: widget.isPassword
                 ? IconButton(
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-              icon: Icon(
-                _obscureText
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,
-                color: Colors.grey.shade600,
-              ),
-            )
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                      color: Colors.grey.shade600,
+                    ),
+                  )
                 : null,
           ),
         ),
-
         // Focus hone par message
         if (isFocused) ...[
           const SizedBox(height: 5),
-
           Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Text(
               widget.helperText ??
-                  (widget.isPassword
-                      ? "Please enter your password"
-                      : "Please enter your email address"),
-
+                  (widget.isPassword ? "Please enter your password" : "Please enter your email address"),
               style: TextStyle(
                 fontSize: 11,
-                color: Colors.deepOrange.shade300,
+                color: activeColor,
               ),
             ),
           ),
