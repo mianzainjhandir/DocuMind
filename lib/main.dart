@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final width = MediaQuery.sizeOf(context).width * 1;
     return Scaffold(
         body: Container(
-          child: Image.asset('assets/images/splash.jpg',
+          child: Image.asset('assets/images/splash1.jpg',
             fit: BoxFit.cover,
             height: double.infinity,
 
