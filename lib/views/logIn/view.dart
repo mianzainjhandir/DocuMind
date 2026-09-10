@@ -27,19 +27,19 @@ class _LogInPageState extends State<LogInPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
-              // Logo/Image resized to match the screenshot
+              const SizedBox(height: 20),
+              // Logo/Image resized to be more compact
               Image.asset(
                 'assets/images/img.png',
-                height: 100,
-                width: 100,
+                height: 70,
+                width: 70,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               // App Title
               const Text(
                 'DocuMind',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF1A237E), // Dark Blue
                 ),
@@ -48,18 +48,18 @@ class _LogInPageState extends State<LogInPage> {
                 'Document Management &\nKnowledge Base',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 13,
                   color: Colors.blueGrey,
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 25),
               // Welcome Text
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Welcome Back',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
                   ),
@@ -70,12 +70,12 @@ class _LogInPageState extends State<LogInPage> {
                 child: Text(
                   'Sign in to your account',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.grey,
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               // Email Field using CustomTextField
               CustomTextField(
                 controller: controller.emailController,
@@ -84,7 +84,7 @@ class _LogInPageState extends State<LogInPage> {
                 focusColor: indigoTheme,
                 keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               // Password Field using CustomTextField
               CustomTextField(
                 controller: controller.passwordController,
@@ -93,7 +93,7 @@ class _LogInPageState extends State<LogInPage> {
                 isPassword: true,
                 focusColor: indigoTheme,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               // Remember Me & Forgot Password
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +109,7 @@ class _LogInPageState extends State<LogInPage> {
                           });
                         },
                       ),
-                      const Text('Remember me'),
+                      const Text('Remember me', style: TextStyle(fontSize: 13)),
                     ],
                   ),
                   TextButton(
@@ -118,17 +118,18 @@ class _LogInPageState extends State<LogInPage> {
                       'Forgot password?',
                       style: TextStyle(
                         color: indigoTheme,
+                        fontSize: 13,
                         decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               // Login Button
               SizedBox(
                 width: double.infinity,
-                height: 55,
+                height: 50,
                 child: ElevatedButton(
                   onPressed: () {
                     controller.logIn();
@@ -142,14 +143,14 @@ class _LogInPageState extends State<LogInPage> {
                   child: const Text(
                     'Login',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
             ],
           ),
         ),
