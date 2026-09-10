@@ -3,8 +3,10 @@ import 'package:documind/views/logIn/logic.dart';
 import 'package:documind/widget/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../widget/social_button.dart';
+import '../signup/view.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -153,42 +155,46 @@ class _LogInPageState extends State<LogInPage> {
                 ),
               ),
               const SizedBox(height: 25),
-              // OR Divider
-              const Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      thickness: 1,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'OR',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 1,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
               SocialLoginButtons(
                 onGoogleTap: () {
                   print("Google Login");
                 },
-
                 onMicroSoftTap: () {
                   print("Facebook Login");
                 },
+              ),
+              const SizedBox(height: 40),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      Get.to(()=> SignUpPage());
+                    },
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Don't have an account? ",
+                            style: GoogleFonts.poppins(
+                              color: Colors.grey,
+                              fontSize: 15,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Sign Up",
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
