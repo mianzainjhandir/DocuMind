@@ -150,7 +150,35 @@ class _LogInPageState extends State<LogInPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 25),
+              // OR Divider
+              const Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      'OR',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
