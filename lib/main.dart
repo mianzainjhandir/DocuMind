@@ -1,9 +1,19 @@
 import 'dart:async';
 
+import 'package:documind/views/logIn/view.dart';
 import 'package:documind/views/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -13,6 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "DocuMind",
+      debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );
   }
@@ -34,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
     Timer(Duration(seconds: 6),(){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AppMainScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LogInPage()));
     });
   }
 
