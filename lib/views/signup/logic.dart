@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:documind/views/home/main_navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -59,8 +60,8 @@ class SignUpController extends GetxController {
       passwordController.clear();
       confirmPasswordController.clear();
       
-      // Navigate back
-      Get.back();
+      // Navigate to Home
+      Get.offAll(() => const MainNavigation());
     } catch (e) {
       Get.snackbar("Error", e.toString(), backgroundColor: Colors.red, colorText: Colors.white);
     }

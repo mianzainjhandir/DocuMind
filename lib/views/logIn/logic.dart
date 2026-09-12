@@ -1,4 +1,5 @@
 
+import 'package:documind/views/home/main_navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,9 @@ class LogInController extends GetxController{
       // Fields Clear
       emailController.clear();
       passwordController.clear();
+
+      // Navigate to Home
+      Get.offAll(() => const MainNavigation());
 
       return true; // ✅ Login Success
     } catch (e) {
