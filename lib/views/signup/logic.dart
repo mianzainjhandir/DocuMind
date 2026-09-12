@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignUpController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -27,7 +29,20 @@ class SignUpController extends GetxController {
     }
 
     try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      // 1. Create user in Firebase Auth
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // 2. Save user data to Firestore in 'docUser' collection
+      await _firestore.collection('docUser').doc(userCredential.user!.uid).set({
+        'uid': userCredential.user!.uid,
+        'name': name,
+        'email': email,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
       Get.snackbar("Success", "Account created successfully!", backgroundColor: Colors.green, colorText: Colors.white);
       
       // Clear fields
@@ -36,7 +51,7 @@ class SignUpController extends GetxController {
       passwordController.clear();
       confirmPasswordController.clear();
       
-      // Navigate back or to home
+      // Navigate back
       Get.back();
     } catch (e) {
       Get.snackbar("Error", e.toString(), backgroundColor: Colors.red, colorText: Colors.white);
