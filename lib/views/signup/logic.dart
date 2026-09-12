@@ -30,17 +30,25 @@ class SignUpController extends GetxController {
 
     try {
       // 1. Create user in Firebase Auth
+      print("Starting Auth registration...");
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      print("Auth Success: ${userCredential.user!.uid}");
 
       // 2. Save user data to Firestore in 'docUser' collection
+      print("Starting Firestore data saving...");
       await _firestore.collection('docUser').doc(userCredential.user!.uid).set({
         'uid': userCredential.user!.uid,
         'name': name,
         'email': email,
         'createdAt': FieldValue.serverTimestamp(),
+      }).then((value) {
+        print("Firestore Success: Document created");
+      }).catchError((error) {
+        print("Firestore Error Details: $error");
+        throw error;
       });
 
       Get.snackbar("Success", "Account created successfully!", backgroundColor: Colors.green, colorText: Colors.white);
