@@ -1,5 +1,7 @@
 import 'package:documind/views/home/home_content.dart';
+import 'package:documind/views/upload_document/view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -35,8 +37,8 @@ class _MainNavigationState extends State<MainNavigation> {
       body: _screens[_currentIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Action for the "+" button
-          print("Add button pressed");
+          // Navigate to Upload Document Screen
+          Get.to(() => const UploadDocumentPage());
         },
         backgroundColor: indigoTheme,
         shape: const CircleBorder(),
