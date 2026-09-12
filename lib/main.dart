@@ -4,6 +4,7 @@ import 'package:documind/views/logIn/view.dart';
 import 'package:documind/views/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'firebase_options.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: "DocuMind",
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
@@ -65,3 +66,4 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 // First of all I have to connect my project with firebase.
+// install the git new version
