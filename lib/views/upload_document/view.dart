@@ -103,22 +103,23 @@ class UploadDocumentPage extends StatelessWidget {
                         border: Border.all(color: Colors.grey.shade300),
                       ),
                       child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: controller.selectedFolder.value == "Select folder" ? null : controller.selectedFolder.value,
-                          hint: Text("Select folder", style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey)),
-                          isExpanded: true,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: <String>['Work', 'Personal', 'Study', 'Finance']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value, style: GoogleFonts.poppins(fontSize: 14)),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            controller.selectedFolder.value = newValue!;
-                          },
-                        ),
+                        child: Obx(() => DropdownButton<String>(
+                              value: controller.availableFolders.contains(controller.selectedFolder.value)
+                                  ? controller.selectedFolder.value
+                                  : null,
+                              hint: Text("Select folder", style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey)),
+                              isExpanded: true,
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              items: controller.availableFolders.map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value, style: GoogleFonts.poppins(fontSize: 14)),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                controller.selectedFolder.value = newValue!;
+                              },
+                            )),
                       ),
                     ),
                     

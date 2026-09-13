@@ -17,6 +17,20 @@ class UploadDocumentController extends GetxController {
   var selectedFolder = "Select folder".obs;
   var tags = <String>["Policy", "HR", "Report"].obs;
   var isUploading = false.obs;
+  var availableFolders = <String>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchFolders();
+  }
+
+  void fetchFolders() {
+    String uid = _auth.currentUser!.uid;
+    _firestore.collection('folders').where('userId', isEqualTo: uid).snapshots().listen((snapshot) {
+      availableFolders.value = snapshot.docs.map((doc) => doc['name'] as String).toList();
+    });
+  }
 
   Future<void> pickFile() async {
     try {
