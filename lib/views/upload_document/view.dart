@@ -43,16 +43,17 @@ class UploadDocumentPage extends StatelessWidget {
                     GestureDetector(
                       onTap: () => controller.pickFile(),
                       child: DottedBorder(
-                        color: indigoTheme.withOpacity(0.5),
-                        strokeWidth: 1.5,
-                        dashPattern: const [8, 4],
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(16),
+                        options: RoundedRectDottedBorderOptions(
+                          color: indigoTheme.withValues(alpha: 0.5),
+                          strokeWidth: 1.5,
+                          dashPattern: const [8, 4],
+                          radius: const Radius.circular(16),
+                        ),
                         child: Container(
                           width: double.infinity,
                           height: 150,
                           decoration: BoxDecoration(
-                            color: indigoTheme.withOpacity(0.02),
+                            color: indigoTheme.withValues(alpha: 0.02),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
@@ -60,16 +61,16 @@ class UploadDocumentPage extends StatelessWidget {
                             children: [
                               const Icon(Icons.cloud_upload_outlined, color: indigoTheme, size: 40),
                               const SizedBox(height: 10),
-                              Text(
-                                controller.selectedFileName.value.isEmpty
-                                    ? 'Tap to upload or browse'
-                                    : controller.selectedFileName.value,
-                                style: GoogleFonts.poppins(
-                                  color: indigoTheme,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
+                              Obx(() => Text(
+                                    controller.selectedFileName.value.isEmpty
+                                        ? 'Tap to upload or browse'
+                                        : controller.selectedFileName.value,
+                                    style: GoogleFonts.poppins(
+                                      color: indigoTheme,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  )),
                               const SizedBox(height: 5),
                               Text(
                                 'Supports PDF, DOCX, TXT, XLS, PPT etc.',

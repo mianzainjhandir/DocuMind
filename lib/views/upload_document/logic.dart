@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,17 +13,25 @@ class UploadDocumentController extends GetxController {
   final TextEditingController tagController = TextEditingController();
 
   var selectedFileName = "".obs;
-  File? selectedFile;
+  var selectedFilePath = "".obs;
   var selectedFolder = "Select folder".obs;
   var tags = <String>["Policy", "HR", "Report"].obs;
   var isUploading = false.obs;
 
   Future<void> pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    try {
+      // In file_picker 12.3.0, use static pickFile method for single file selection.
+      final PlatformFile? file = await FilePicker.pickFile(
+        type: FileType.any,
+      );
 
-    if (result != null) {
-      selectedFile = File(result.files.single.path!);
-      selectedFileName.value = result.files.single.name;
+      if (file != null && file.name.isNotEmpty) {
+        selectedFileName.value = file.name;
+        // path might be null on Web, which is fine for our metadata-only storage.
+        selectedFilePath.value = file.path ?? "";
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Failed to pick file: $e");
     }
   }
 
@@ -32,7 +39,7 @@ class UploadDocumentController extends GetxController {
     String title = titleController.text.trim();
     String description = descriptionController.text.trim();
 
-    if (selectedFile == null) {
+    if (selectedFileName.value.isEmpty) {
       Get.snackbar("Error", "Please select a file to upload", backgroundColor: Colors.red, colorText: Colors.white);
       return;
     }
@@ -47,9 +54,6 @@ class UploadDocumentController extends GetxController {
     try {
       String uid = _auth.currentUser!.uid;
       
-      // We are skipping Firebase Storage and only saving metadata to Firestore
-      // as per your requirement.
-      
       // Save Metadata to Firestore
       await _firestore.collection('documents').add({
         'userId': uid,
@@ -58,7 +62,6 @@ class UploadDocumentController extends GetxController {
         'folder': selectedFolder.value,
         'tags': List<String>.from(tags),
         'fileName': selectedFileName.value,
-        'localPath': selectedFile!.path, // Storing local path for reference
         'createdAt': FieldValue.serverTimestamp(),
       });
 
@@ -69,8 +72,8 @@ class UploadDocumentController extends GetxController {
       // Reset fields
       titleController.clear();
       descriptionController.clear();
-      selectedFile = null;
       selectedFileName.value = "";
+      selectedFilePath.value = "";
     } catch (e) {
       isUploading.value = false;
       Get.snackbar("Error", e.toString(), backgroundColor: Colors.red, colorText: Colors.white);
