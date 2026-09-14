@@ -65,6 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+//
 // First of all I have to connect my project with firebase.
 // install the git new version
 // sjsjjs;;;
