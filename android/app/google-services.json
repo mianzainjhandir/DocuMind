@@ -1,0 +1,154 @@
+{
+  "project_info": {
+    "project_number": "544258976640",
+    "project_id": "chatting-7a5e5",
+    "storage_bucket": "chatting-7a5e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544258976640:android:b5bb70547b76f40d10af65",
+        "android_client_info": {
+          "package_name": "com.example.charity_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544258976640-6ohq68smqur1b2v9nebbsod8vd476bn9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAINHxMHVJVXuxLIyvx8CGvBXP12BMXT3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544258976640-6ohq68smqur1b2v9nebbsod8vd476bn9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "544258976640-1pmd8ok49aop1kt67d7ks52n0avaf450.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatPractice"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544258976640:android:159b3e8e5fcf56ab10af65",
+        "android_client_info": {
+          "package_name": "com.example.chat_practice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544258976640-6ohq68smqur1b2v9nebbsod8vd476bn9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAINHxMHVJVXuxLIyvx8CGvBXP12BMXT3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544258976640-6ohq68smqur1b2v9nebbsod8vd476bn9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "544258976640-1pmd8ok49aop1kt67d7ks52n0avaf450.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatPractice"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544258976640:android:34e27d03dc278e0e10af65",
+        "android_client_info": {
+          "package_name": "com.example.documind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544258976640-6ohq68smqur1b2v9nebbsod8vd476bn9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAINHxMHVJVXuxLIyvx8CGvBXP12BMXT3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544258976640-6ohq68smqur1b2v9nebbsod8vd476bn9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "544258976640-1pmd8ok49aop1kt67d7ks52n0avaf450.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatPractice"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544258976640:android:c095e8c4f63d5f8310af65",
+        "android_client_info": {
+          "package_name": "com.example.practice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544258976640-6ohq68smqur1b2v9nebbsod8vd476bn9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAINHxMHVJVXuxLIyvx8CGvBXP12BMXT3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544258976640-6ohq68smqur1b2v9nebbsod8vd476bn9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "544258976640-1pmd8ok49aop1kt67d7ks52n0avaf450.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatPractice"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
