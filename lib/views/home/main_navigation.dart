@@ -1,6 +1,8 @@
 import 'package:documind/views/documents/view.dart';
+import 'package:documind/views/documents/view.dart';
 import 'package:documind/views/folders/view.dart';
 import 'package:documind/views/home/home_content.dart';
+import 'package:documind/views/profile/view.dart';
 import 'package:documind/views/upload_document/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +23,7 @@ class _MainNavigationState extends State<MainNavigation> {
     const DocumentsTabScreen(),
     const Center(child: Text("Add Item Screen")), // Placeholder for center button action
     const FoldersScreen(),
-    const Center(child: Text("Profile Screen")),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
