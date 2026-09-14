@@ -1,3 +1,4 @@
+import 'package:documind/views/documents/view.dart';
 import 'package:documind/views/folders/view.dart';
 import 'package:documind/views/home/home_content.dart';
 import 'package:documind/views/upload_document/view.dart';
@@ -17,7 +18,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _screens = [
     const HomeContent(),
-    const Center(child: Text("Documents Screen")),
+    const DocumentsTabScreen(),
     const Center(child: Text("Add Item Screen")), // Placeholder for center button action
     const FoldersScreen(),
     const Center(child: Text("Profile Screen")),
