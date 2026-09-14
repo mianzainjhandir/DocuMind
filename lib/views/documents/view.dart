@@ -140,107 +140,112 @@ class DocumentsTabScreen extends StatelessWidget {
                   return _buildEmptyState();
                 }
 
-                // Apply type and search query filter locally
-                final filteredDocs = controller.filterDocuments(snapshot.data!.docs);
+                return Obx(() {
+                  // Apply type and search query filter locally
+                  final filteredDocs = controller.filterDocuments(snapshot.data!.docs);
 
-                if (filteredDocs.isEmpty) {
-                  return _buildEmptyState();
-                }
+                  if (filteredDocs.isEmpty) {
+                    return _buildEmptyState();
+                  }
 
-                return ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  itemCount: filteredDocs.length,
-                  separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFF3F4F6)),
-                  itemBuilder: (context, index) {
-                    final doc = filteredDocs[index];
-                    final data = doc.data() as Map<String, dynamic>;
-                    
-                    final title = data['title'] ?? 'Untitled Document';
-                    final fileName = data['fileName'] ?? '';
-                    final tags = data['tags'] != null ? List<String>.from(data['tags']) : [];
-                    final createdAt = data['createdAt'] as Timestamp?;
-                    
-                    // Time format formatting
-                    String timeAgo = "Just now";
-                    if (createdAt != null) {
-                      final date = createdAt.toDate();
-                      final difference = DateTime.now().difference(date);
-                      if (difference.inDays > 0) {
-                        timeAgo = "${difference.inDays} days ago";
-                      } else if (difference.inHours > 0) {
-                        timeAgo = "${difference.inHours} hours ago";
-                      } else if (difference.inMinutes > 0) {
-                        timeAgo = "${difference.inMinutes} minutes ago";
+                  return ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    itemCount: filteredDocs.length,
+                    separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFF3F4F6)),
+                    itemBuilder: (context, index) {
+                      final doc = filteredDocs[index];
+                      final data = doc.data() as Map<String, dynamic>;
+                      
+                      final title = data['title'] ?? 'Untitled Document';
+                      final fileName = data['fileName'] ?? '';
+                      final tags = data['tags'] != null ? List<String>.from(data['tags']) : [];
+                      final createdAt = data['createdAt'] as Timestamp?;
+                      
+                      // Time format formatting
+                      String timeAgo = "Just now";
+                      if (createdAt != null) {
+                        final date = createdAt.toDate();
+                        final difference = DateTime.now().difference(date);
+                        if (difference.inDays > 0) {
+                          timeAgo = "${difference.inDays} days ago";
+                        } else if (difference.inHours > 0) {
+                          timeAgo = "${difference.inHours} hours ago";
+                        } else if (difference.inMinutes > 0) {
+                          timeAgo = "${difference.inMinutes} minutes ago";
+                        }
                       }
-                    }
 
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        children: [
-                          // Document Type Color Coded Icon
-                          _buildFileIcon(fileName),
-                          const SizedBox(width: 14),
-                          
-                          // Document Titles, Tags and Metadata
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  title,
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15,
-                                    color: Colors.black87,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
+                      return InkWell(
+                        onTap: () => _showDetailsDialog(title, fileName, data),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            children: [
+                              // Document Type Color Coded Icon
+                              _buildFileIcon(fileName),
+                              const SizedBox(width: 14),
+                              
+                              // Document Titles, Tags and Metadata
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    if (tags.isNotEmpty) ...[
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                                        decoration: BoxDecoration(
-                                          color: _getTagBackgroundColor(tags.first),
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Text(
-                                          tags.first,
+                                    Text(
+                                      title,
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
+                                        color: Colors.black87,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        if (tags.isNotEmpty) ...[
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                            decoration: BoxDecoration(
+                                              color: _getTagBackgroundColor(tags.first),
+                                              borderRadius: BorderRadius.circular(8),
+                                            ),
+                                            child: Text(
+                                              tags.first,
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 11,
+                                                color: _getTagTextColor(tags.first),
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                        ],
+                                        Text(
+                                          timeAgo,
                                           style: GoogleFonts.poppins(
-                                            fontSize: 11,
-                                            color: _getTagTextColor(tags.first),
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            color: Colors.grey.shade400,
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                    ],
-                                    Text(
-                                      timeAgo,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        color: Colors.grey.shade400,
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              
+                              // More Actions Option
+                              IconButton(
+                                icon: const Icon(Icons.more_vert, color: Colors.grey, size: 20),
+                                onPressed: () => _showActionsMenu(context, title, fileName, data),
+                              ),
+                            ],
                           ),
-                          
-                          // More Actions Option
-                          IconButton(
-                            icon: const Icon(Icons.more_vert, color: Colors.grey, size: 20),
-                            onPressed: () => _showActionsMenu(context, title, fileName, data),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
+                        ),
+                      );
+                    },
+                  );
+                });
               },
             ),
           ),

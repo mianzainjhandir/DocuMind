@@ -17,7 +17,6 @@ class DocumentsTabController extends GetxController {
     return _firestore
         .collection('documents')
         .where('userId', isEqualTo: uid)
-        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 
