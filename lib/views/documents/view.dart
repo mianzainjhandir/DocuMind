@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:documind/views/documents/document_details_view.dart';
 import 'package:documind/views/documents/logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class DocumentsTabScreen extends StatelessWidget {
   const DocumentsTabScreen({super.key});
@@ -176,7 +176,11 @@ class DocumentsTabScreen extends StatelessWidget {
                       }
 
                       return InkWell(
-                        onTap: () => _showDetailsDialog(title, fileName, data),
+                        onTap: () => Get.to(() => DocumentDetailsScreen(
+                              title: title,
+                              fileName: fileName,
+                              data: data,
+                            )),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Row(

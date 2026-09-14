@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:documind/views/documents/document_details_view.dart';
 import 'package:documind/views/home/home_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -225,13 +226,20 @@ class HomeContent extends StatelessWidget {
                         }
                       }
 
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Row(
-                          children: [
-                            _buildFileIcon(fileName),
-                            const SizedBox(width: 14),
-                            Expanded(
+                      return InkWell(
+                        onTap: () => Get.to(() => DocumentDetailsScreen(
+                              title: title,
+                              fileName: fileName,
+                              data: data,
+                            )),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Row(
+                            children: [
+                              _buildFileIcon(fileName),
+                              const SizedBox(width: 14),
+                              Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -262,9 +270,10 @@ class HomeContent extends StatelessWidget {
                             ),
                           ],
                         ),
-                      );
-                    },
-                  );
+                      ),
+                    );
+                  },
+                );
                 },
               ),
             ],
