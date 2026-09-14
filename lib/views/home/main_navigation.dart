@@ -1,4 +1,5 @@
 import 'package:documind/views/documents/view.dart';
+import 'package:documind/views/analytics/view.dart';
 import 'package:documind/views/documents/view.dart';
 import 'package:documind/views/folders/view.dart';
 import 'package:documind/views/home/home_content.dart';
@@ -20,7 +21,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _screens = [
     const HomeContent(),
-    const DocumentsTabScreen(),
+    const DocumentAnalyticsScreen(), // Set analytics tab directly as requested in screenshot tab flow
     const Center(child: Text("Add Item Screen")), // Placeholder for center button action
     const FoldersScreen(),
     const ProfileScreen(),
@@ -65,7 +66,7 @@ class _MainNavigationState extends State<MainNavigation> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _buildNavItem(0, Icons.home, "Home", indigoTheme),
-                    _buildNavItem(1, Icons.description_outlined, "Documents", indigoTheme),
+                    _buildNavItem(1, Icons.analytics_outlined, "Doculyts", indigoTheme),
                   ],
                 ),
               ),
