@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:documind/views/documents/share_document_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -197,11 +198,11 @@ class DocumentDetailsScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Expanded(child: _buildActionButton(Icons.share_outlined, "Share")),
+                  Expanded(child: _buildActionButton(context, Icons.share_outlined, "Share")),
                   const SizedBox(width: 12),
-                  Expanded(child: _buildActionButton(Icons.lightbulb_outline, "Ask AI")),
+                  Expanded(child: _buildActionButton(context, Icons.lightbulb_outline, "Ask AI")),
                   const SizedBox(width: 12),
-                  Expanded(child: _buildActionButton(Icons.tune_outlined, "More")),
+                  Expanded(child: _buildActionButton(context, Icons.tune_outlined, "More")),
                 ],
               ),
             ),
@@ -259,35 +260,42 @@ class DocumentDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label) {
-    return Container(
-      height: 65,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.015),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: const Color(0xFF1E3A8A), size: 22),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: GoogleFonts.poppins(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey.shade600,
+  Widget _buildActionButton(BuildContext context, IconData icon, String label) {
+    return GestureDetector(
+      onTap: () {
+        if (label == "Share") {
+          Get.to(() => ShareDocumentScreen(title: title, fileName: fileName));
+        }
+      },
+      child: Container(
+        height: 65,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade100),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.015),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
             ),
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: const Color(0xFF1E3A8A), size: 22),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: GoogleFonts.poppins(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey.shade600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
