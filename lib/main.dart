@@ -70,3 +70,4 @@ class _SplashScreenState extends State<SplashScreen> {
 // install the git new version
 // sjsjjs;;;
 // lllpppp
+//  I did nothing but i commiting this code for testing.
