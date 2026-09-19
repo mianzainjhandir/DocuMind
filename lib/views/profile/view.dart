@@ -1,3 +1,4 @@
+import 'package:documind/views/profile/edit_profile_view.dart';
 import 'package:documind/views/profile/help_support_view.dart';
 import 'package:documind/views/profile/logic.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,19 +26,18 @@ class ProfileScreen extends StatelessWidget {
               // 1. User Info Header Row (Avatar, Name, Email)
               Row(
                 children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFDBEAFE), // Light blue avatar bg
-                    ),
-                    child: const Icon(
-                      Icons.person,
-                      color: Color(0xFF1E40AF),
-                      size: 42,
-                    ),
-                  ),
+                  Obx(() => Container(
+                        width: 70,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xFFDBEAFE),
+                          image: DecorationImage(
+                            image: AssetImage(controller.profileImageString.value),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )),
                   const SizedBox(width: 20),
                   Expanded(
                     child: Column(
@@ -87,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                       Icons.person_outline,
                       "My Profile",
                       hasTrailingArrow: true,
-                      onTap: () {},
+                      onTap: () => Get.to(() => const EditProfileScreen()),
                     ),
                     _buildDivider(),
                     

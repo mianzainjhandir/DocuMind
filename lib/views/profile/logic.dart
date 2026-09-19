@@ -12,6 +12,7 @@ class ProfileController extends GetxController {
   var userEmail = "zain@gmail.com".obs;
   var isNotificationEnabled = true.obs;
   var currentThemeMode = "Light".obs;
+  var profileImageString = "assets/images/google1.png".obs; // Storing as string metadata for free storage simulation
 
   @override
   void onInit() {
@@ -31,6 +32,9 @@ class ProfileController extends GetxController {
           final data = snapshot.data()!;
           if (data.containsKey('name')) {
             userName.value = data['name'] ?? "Zain Ul Abedine";
+          }
+          if (data.containsKey('profileImage')) {
+            profileImageString.value = data['profileImage'] ?? "assets/images/google1.png";
           }
         }
       });
@@ -52,6 +56,30 @@ class ProfileController extends GetxController {
       Get.changeTheme(ThemeData.dark());
     } else {
       Get.changeTheme(ThemeData.light());
+    }
+  }
+
+  void updateProfileImageString(String path) {
+    profileImageString.value = path;
+  }
+
+  Future<bool> saveProfileToFirestore(String newName) async {
+    try {
+      User? currentUser = _auth.currentUser;
+      if (currentUser == null) return false;
+
+      // Update to user document inside free Firestore database layer directly
+      await _firestore.collection('users').doc(currentUser.uid).set({
+        'name': newName,
+        'profileImage': profileImageString.value,
+        'email': userEmail.value,
+      }, SetOptions(merge: true));
+
+      userName.value = newName;
+      return true;
+    } catch (e) {
+      Get.snackbar("Error", "Failed to save data: $e");
+      return false;
     }
   }
 }
