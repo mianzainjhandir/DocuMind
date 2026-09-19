@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:documind/views/profile/edit_profile_view.dart';
 import 'package:documind/views/profile/help_support_view.dart';
 import 'package:documind/views/profile/logic.dart';
@@ -26,18 +27,25 @@ class ProfileScreen extends StatelessWidget {
               // 1. User Info Header Row (Avatar, Name, Email)
               Row(
                 children: [
-                  Obx(() => Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: const Color(0xFFDBEAFE),
-                          image: DecorationImage(
-                            image: AssetImage(controller.profileImageString.value),
-                            fit: BoxFit.cover,
-                          ),
+                  Obx(() {
+                    String imgPath = controller.profileImageString.value;
+                    bool isLocalFile = imgPath.contains('/') && !imgPath.startsWith('assets/');
+                    
+                    return Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0xFFDBEAFE),
+                        image: DecorationImage(
+                          image: isLocalFile 
+                              ? FileImage(File(imgPath)) as ImageProvider
+                              : AssetImage(imgPath),
+                          fit: BoxFit.cover,
                         ),
-                      )),
+                      ),
+                    );
+                  }),
                   const SizedBox(width: 20),
                   Expanded(
                     child: Column(

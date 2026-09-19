@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:documind/views/profile/logic.dart';
@@ -28,22 +30,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _pickProfileImage() async {
-    // Storage optimization approach as requested: Avoid Firebase Storage paid layer.
-    // Instead, pick file metadata or simulate picking an avatar image asset string,
-    // which encodes perfectly into text for direct free Firestore document saving.
+    // Pick real image from Mobile Gallery using the project's file_picker package.
+    // To ensure full 100% free operation without utilizing paid Firebase Storage buckets,
+    // we save the local file path dynamically to Firestore metadata document.
     try {
-      // Mocking text based avatar asset paths/base64 string logic to match user requirements
-      String chosenMockAvatar = "assets/images/google1.png"; // Dynamic string payload path update
-      controller.updateProfileImageString(chosenMockAvatar);
-      
-      Get.snackbar(
-        "Success", 
-        "Profile image selected successfully!", 
-        backgroundColor: Colors.blue.shade50,
-        colorText: Colors.blue.shade800,
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
       );
+
+      if (result != null && result.files.single.path != null) {
+        String galleryImagePath = result.files.single.path!;
+        controller.updateProfileImageString(galleryImagePath);
+        
+        Get.snackbar(
+          "Success", 
+          "Image selected successfully from Gallery!", 
+          backgroundColor: Colors.green.shade50,
+          colorText: Colors.green.shade800,
+        );
+      }
     } catch (e) {
-      Get.snackbar("Error", "Failed to select image: $e");
+      Get.snackbar("Error", "Failed to pick image from gallery: $e");
     }
   }
 
@@ -105,6 +112,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       children: [
                         Obx(() {
                           String imgPath = controller.profileImageString.value;
+                          
+                          // Check if the path is a local file picked from gallery or an asset path
+                          bool isLocalFile = imgPath.contains('/') && !imgPath.startsWith('assets/');
+                          
                           return Container(
                             width: 110,
                             height: 110,
@@ -113,7 +124,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               color: const Color(0xFFDBEAFE),
                               border: Border.all(color: Colors.grey.shade200, width: 2),
                               image: DecorationImage(
-                                image: AssetImage(imgPath),
+                                image: isLocalFile 
+                                    ? FileImage(File(imgPath)) as ImageProvider
+                                    : AssetImage(imgPath),
                                 fit: BoxFit.cover,
                               ),
                             ),
