@@ -1,3 +1,4 @@
+import 'package:documind/views/profile/help_support_view.dart';
 import 'package:documind/views/profile/logic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
                       Icons.help_outline,
                       "Help & Support",
                       hasTrailingArrow: true,
-                      onTap: () {},
+                      onTap: () => Get.to(() => const HelpSupportScreen()),
                     ),
                     _buildDivider(),
                     _buildMenuOption(
