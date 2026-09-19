@@ -10,6 +10,7 @@ class ProfileController extends GetxController {
   var userName = "Zain Ul Abedine".obs;
   var userEmail = "zain@gmail.com".obs;
   var isNotificationEnabled = true.obs;
+  var currentThemeMode = "Light".obs;
 
   @override
   void onInit() {
@@ -41,6 +42,15 @@ class ProfileController extends GetxController {
       Get.offAll(() => const LogInPage());
     } catch (e) {
       Get.snackbar("Error", "Failed to logout: $e");
+    }
+  }
+
+  void toggleThemeMode(String mode) {
+    currentThemeMode.value = mode;
+    if (mode == "Dark") {
+      Get.changeTheme(ThemeData.dark());
+    } else {
+      Get.changeTheme(ThemeData.light());
     }
   }
 }

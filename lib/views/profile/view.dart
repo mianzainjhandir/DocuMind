@@ -126,13 +126,13 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () {},
                     ),
                     _buildDivider(),
-                    _buildMenuOption(
-                      Icons.timelapse_outlined,
-                      "Appearance",
-                      trailingText: "Light",
-                      hasTrailingArrow: true,
-                      onTap: () {},
-                    ),
+                    Obx(() => _buildMenuOption(
+                          Icons.timelapse_outlined,
+                          "Appearance",
+                          trailingText: controller.currentThemeMode.value,
+                          hasTrailingArrow: true,
+                          onTap: () => _showAppearanceBottomSheet(context, controller),
+                        )),
                     _buildDivider(),
                     _buildMenuOption(
                       Icons.help_outline,
@@ -282,6 +282,59 @@ class ProfileScreen extends StatelessWidget {
       child: Text(
         text,
         style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey.shade600),
+      ),
+    );
+  }
+
+  void _showAppearanceBottomSheet(BuildContext context, ProfileController controller) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Choose Appearance",
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF0F172A),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Obx(() => ListTile(
+                  leading: const Icon(Icons.wb_sunny_outlined, color: Colors.orange),
+                  title: Text("Light Mode", style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                  trailing: controller.currentThemeMode.value == "Light"
+                      ? const Icon(Icons.check_circle, color: Color(0xFF1D4ED8))
+                      : null,
+                  onTap: () {
+                    controller.toggleThemeMode("Light");
+                    Get.back();
+                  },
+                )),
+            Obx(() => ListTile(
+                  leading: const Icon(Icons.nightlight_round_outlined, color: Colors.indigo),
+                  title: Text("Dark Mode", style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+                  trailing: controller.currentThemeMode.value == "Dark"
+                      ? const Icon(Icons.check_circle, color: Color(0xFF1D4ED8))
+                      : null,
+                  onTap: () {
+                    controller.toggleThemeMode("Dark");
+                    Get.back();
+                  },
+                )),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
