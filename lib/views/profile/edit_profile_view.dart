@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
@@ -30,24 +31,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _pickProfileImage() async {
-    // Pick real image from Mobile Gallery using the project's file_picker package.
-    // To ensure full 100% free operation without utilizing paid Firebase Storage buckets,
-    // we save the local file path dynamically to Firestore metadata document.
+    // Pick real image from Mobile Gallery using the project's specific file_picker version syntax.
+    // Supports cross-platform unified web blob/native paths natively for free storage integration.
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
+      final PlatformFile? file = await FilePicker.pickFile(
         type: FileType.image,
       );
 
-      if (result != null && result.files.single.path != null) {
-        String galleryImagePath = result.files.single.path!;
-        controller.updateProfileImageString(galleryImagePath);
-        
-        Get.snackbar(
-          "Success", 
-          "Image selected successfully from Gallery!", 
-          backgroundColor: Colors.green.shade50,
-          colorText: Colors.green.shade800,
-        );
+      if (file != null) {
+        // file.path contains native mobile path, file.bytes/name handles fallback or web context
+        String chosenPath = "";
+        if (kIsWeb) {
+          chosenPath = file.name; // On web context
+        } else {
+          chosenPath = file.path ?? "";
+        }
+
+        if (chosenPath.isNotEmpty) {
+          controller.updateProfileImageString(chosenPath);
+          Get.snackbar(
+            "Success", 
+            "Image selected successfully from Gallery!", 
+            backgroundColor: Colors.green.shade50,
+            colorText: Colors.green.shade800,
+          );
+        }
       }
     } catch (e) {
       Get.snackbar("Error", "Failed to pick image from gallery: $e");
@@ -113,8 +121,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         Obx(() {
                           String imgPath = controller.profileImageString.value;
                           
-                          // Check if the path is a local file picked from gallery or an asset path
+                          // Check if it's a web/network image path, local file or asset path
+                          bool isNetwork = imgPath.startsWith('http') || imgPath.startsWith('blob:');
                           bool isLocalFile = imgPath.contains('/') && !imgPath.startsWith('assets/');
+
+                          ImageProvider imageProvider;
+                          if (isNetwork) {
+                            imageProvider = NetworkImage(imgPath);
+                          } else if (isLocalFile && !kIsWeb) {
+                            imageProvider = FileImage(File(imgPath));
+                          } else if (kIsWeb && isLocalFile) {
+                            // If running on Web platform, local native paths cannot be parsed as File()
+                            imageProvider = NetworkImage(imgPath);
+                          } else {
+                            imageProvider = AssetImage(imgPath);
+                          }
                           
                           return Container(
                             width: 110,
@@ -124,9 +145,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               color: const Color(0xFFDBEAFE),
                               border: Border.all(color: Colors.grey.shade200, width: 2),
                               image: DecorationImage(
-                                image: isLocalFile 
-                                    ? FileImage(File(imgPath)) as ImageProvider
-                                    : AssetImage(imgPath),
+                                image: imageProvider,
                                 fit: BoxFit.cover,
                               ),
                             ),

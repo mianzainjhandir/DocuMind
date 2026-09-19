@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:documind/views/profile/edit_profile_view.dart';
 import 'package:documind/views/profile/help_support_view.dart';
 import 'package:documind/views/profile/logic.dart';
@@ -29,7 +30,17 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Obx(() {
                     String imgPath = controller.profileImageString.value;
+                    bool isNetwork = imgPath.startsWith('http') || imgPath.startsWith('blob:');
                     bool isLocalFile = imgPath.contains('/') && !imgPath.startsWith('assets/');
+
+                    ImageProvider imageProvider;
+                    if (isNetwork) {
+                      imageProvider = NetworkImage(imgPath);
+                    } else if (isLocalFile && !kIsWeb) {
+                      imageProvider = FileImage(File(imgPath));
+                    } else {
+                      imageProvider = AssetImage(imgPath);
+                    }
                     
                     return Container(
                       width: 70,
@@ -38,9 +49,7 @@ class ProfileScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: const Color(0xFFDBEAFE),
                         image: DecorationImage(
-                          image: isLocalFile 
-                              ? FileImage(File(imgPath)) as ImageProvider
-                              : AssetImage(imgPath),
+                          image: imageProvider,
                           fit: BoxFit.cover,
                         ),
                       ),
