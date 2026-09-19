@@ -1,11 +1,10 @@
 import 'dart:async';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:documind/views/home/main_navigation.dart';
 import 'package:documind/views/logIn/view.dart';
-import 'package:documind/views/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-
 import 'firebase_options.dart';
 
 void main()async {
@@ -45,8 +44,17 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
 
-    Timer(Duration(seconds: 6),(){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LogInPage()));
+    Timer(Duration(seconds: 4), () {
+      // Check if user is already logged in with Firebase Auth persistence session
+      User? user = FirebaseAuth.instance.currentUser;
+      
+      if (user != null) {
+        // If user is already authenticated session token exists, navigate straight to Main Dashboard Home screen
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainNavigation()));
+      } else {
+        // If no active auth session found, navigate to LogIn page
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LogInPage()));
+      }
     });
   }
 
