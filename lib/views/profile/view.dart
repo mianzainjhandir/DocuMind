@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                   Obx(() {
                     String imgPath = controller.profileImageString.value;
                     bool isNetwork = imgPath.startsWith('http') || imgPath.startsWith('blob:');
-                    bool isLocalFile = imgPath.contains('/') && !imgPath.startsWith('assets/');
+                    bool isLocalFile = (imgPath.contains('/') || imgPath.contains('\\')) && !imgPath.startsWith('assets/');
 
                     ImageProvider imageProvider;
                     if (isNetwork) {
@@ -39,7 +39,11 @@ class ProfileScreen extends StatelessWidget {
                     } else if (isLocalFile && !kIsWeb) {
                       imageProvider = FileImage(File(imgPath));
                     } else {
-                      imageProvider = AssetImage(imgPath);
+                      if (!imgPath.startsWith('assets/')) {
+                        imageProvider = const AssetImage('assets/images/img.png');
+                      } else {
+                        imageProvider = AssetImage(imgPath);
+                      }
                     }
                     
                     return Container(

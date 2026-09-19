@@ -123,7 +123,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           
                           // Check if it's a web/network image path, local file or asset path
                           bool isNetwork = imgPath.startsWith('http') || imgPath.startsWith('blob:');
-                          bool isLocalFile = imgPath.contains('/') && !imgPath.startsWith('assets/');
+                          bool isLocalFile = (imgPath.contains('/') || imgPath.contains('\\')) && !imgPath.startsWith('assets/');
 
                           ImageProvider imageProvider;
                           if (isNetwork) {
@@ -131,10 +131,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           } else if (isLocalFile && !kIsWeb) {
                             imageProvider = FileImage(File(imgPath));
                           } else if (kIsWeb && isLocalFile) {
-                            // If running on Web platform, local native paths cannot be parsed as File()
                             imageProvider = NetworkImage(imgPath);
                           } else {
-                            imageProvider = AssetImage(imgPath);
+                            // Safe fallback in case file picker returns just the name without direct path prefix
+                            if (!imgPath.startsWith('assets/')) {
+                              imageProvider = const AssetImage('assets/images/img.png');
+                            } else {
+                              imageProvider = AssetImage(imgPath);
+                            }
                           }
                           
                           return Container(
