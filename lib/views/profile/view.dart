@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:documind/views/profile/edit_profile_view.dart';
 import 'package:documind/views/profile/help_support_view.dart';
+import 'package:documind/views/profile/security_view.dart';
 import 'package:documind/views/profile/logic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,66 +26,74 @@ class ProfileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              // 1. User Info Header Row (Avatar, Name, Email)
-              Row(
-                children: [
-                  Obx(() {
-                    String imgPath = controller.profileImageString.value;
-                    bool isNetwork = imgPath.startsWith('http') || imgPath.startsWith('blob:');
-                    bool isLocalFile = (imgPath.contains('/') || imgPath.contains('\\')) && !imgPath.startsWith('assets/');
+              // 1. User Info Header Row (Avatar, Name, Email) - Wrapped in InkWell for navigation
+              InkWell(
+                onTap: () => Get.to(() => const EditProfileScreen()),
+                borderRadius: BorderRadius.circular(16),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                  child: Row(
+                    children: [
+                      Obx(() {
+                        String imgPath = controller.profileImageString.value;
+                        bool isNetwork = imgPath.startsWith('http') || imgPath.startsWith('blob:');
+                        bool isLocalFile = (imgPath.contains('/') || imgPath.contains('\\')) && !imgPath.startsWith('assets/');
 
-                    ImageProvider imageProvider;
-                    if (isNetwork) {
-                      imageProvider = NetworkImage(imgPath);
-                    } else if (isLocalFile && !kIsWeb) {
-                      imageProvider = FileImage(File(imgPath));
-                    } else {
-                      if (!imgPath.startsWith('assets/')) {
-                        imageProvider = const AssetImage('assets/images/img.png');
-                      } else {
-                        imageProvider = AssetImage(imgPath);
-                      }
-                    }
-                    
-                    return Container(
-                      width: 70,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color(0xFFDBEAFE),
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
+                        ImageProvider imageProvider;
+                        if (isNetwork) {
+                          imageProvider = NetworkImage(imgPath);
+                        } else if (isLocalFile && !kIsWeb) {
+                          imageProvider = FileImage(File(imgPath));
+                        } else {
+                          if (!imgPath.startsWith('assets/')) {
+                            imageProvider = const AssetImage('assets/images/img.png');
+                          } else {
+                            imageProvider = AssetImage(imgPath);
+                          }
+                        }
+                        
+                        return Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: const Color(0xFFDBEAFE),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      }),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Obx(() => Text(
+                                  controller.userName.value,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF0F172A),
+                                  ),
+                                )),
+                            const SizedBox(height: 3),
+                            Obx(() => Text(
+                                  controller.userEmail.value,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    color: Colors.grey.shade500,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )),
+                          ],
                         ),
                       ),
-                    );
-                  }),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Obx(() => Text(
-                              controller.userName.value,
-                              style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF0F172A),
-                              ),
-                            )),
-                        const SizedBox(height: 3),
-                        Obx(() => Text(
-                              controller.userEmail.value,
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: Colors.grey.shade500,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            )),
-                      ],
-                    ),
+                      Icon(Icons.arrow_forward_ios, color: Colors.grey.shade300, size: 16),
+                    ],
                   ),
-                ],
+                ),
               ),
               const SizedBox(height: 30),
 
@@ -144,7 +153,7 @@ class ProfileScreen extends StatelessWidget {
                       Icons.security_outlined,
                       "Security",
                       hasTrailingArrow: true,
-                      onTap: () {},
+                      onTap: () => Get.to(() => const SecurityScreen()),
                     ),
                     _buildDivider(),
                     Obx(() => _buildMenuOption(
