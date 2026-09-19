@@ -82,7 +82,12 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    _buildMenuOption(Icons.person_outline, "My Profile", hasTrailingArrow: true),
+                    _buildMenuOption(
+                      Icons.person_outline,
+                      "My Profile",
+                      hasTrailingArrow: true,
+                      onTap: () {},
+                    ),
                     _buildDivider(),
                     
                     // Notifications Row with iOS Switch Toggle Button
@@ -113,13 +118,34 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     _buildDivider(),
                     
-                    _buildMenuOption(Icons.security_outlined, "Security", hasTrailingArrow: true),
+                    _buildMenuOption(
+                      Icons.security_outlined,
+                      "Security",
+                      hasTrailingArrow: true,
+                      onTap: () {},
+                    ),
                     _buildDivider(),
-                    _buildMenuOption(Icons.timelapse_outlined, "Appearance", trailingText: "Light", hasTrailingArrow: true),
+                    _buildMenuOption(
+                      Icons.timelapse_outlined,
+                      "Appearance",
+                      trailingText: "Light",
+                      hasTrailingArrow: true,
+                      onTap: () {},
+                    ),
                     _buildDivider(),
-                    _buildMenuOption(Icons.help_outline, "Help & Support", hasTrailingArrow: true),
+                    _buildMenuOption(
+                      Icons.help_outline,
+                      "Help & Support",
+                      hasTrailingArrow: true,
+                      onTap: () {},
+                    ),
                     _buildDivider(),
-                    _buildMenuOption(Icons.info_outline, "About App", hasTrailingArrow: true),
+                    _buildMenuOption(
+                      Icons.info_outline,
+                      "About App",
+                      hasTrailingArrow: true,
+                      onTap: () => _showAboutAppDialog(context),
+                    ),
                   ],
                 ),
               ),
@@ -156,37 +182,105 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuOption(IconData icon, String label, {String? trailingText, bool hasTrailingArrow = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      child: Row(
-        children: [
-          Icon(icon, color: const Color(0xFF1E3A8A), size: 24),
-          const SizedBox(width: 16),
-          Text(
-            label,
-            style: GoogleFonts.poppins(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: const Color(0xFF334155),
-            ),
-          ),
-          const Spacer(),
-          if (trailingText != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Text(
-                trailingText,
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  color: Colors.grey.shade400,
-                  fontWeight: FontWeight.w500,
-                ),
+  Widget _buildMenuOption(IconData icon, String label, {String? trailingText, bool hasTrailingArrow = false, required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Row(
+          children: [
+            Icon(icon, color: const Color(0xFF1E3A8A), size: 24),
+            const SizedBox(width: 16),
+            Text(
+              label,
+              style: GoogleFonts.poppins(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF334155),
               ),
             ),
-          if (hasTrailingArrow)
-            Icon(Icons.arrow_forward_ios, color: Colors.grey.shade400, size: 14),
+            const Spacer(),
+            if (trailingText != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text(
+                  trailingText,
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: Colors.grey.shade400,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            if (hasTrailingArrow)
+              Icon(Icons.arrow_forward_ios, color: Colors.grey.shade400, size: 14),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showAboutAppDialog(BuildContext context) {
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            const Icon(Icons.info_outline, color: Color(0xFF1D4ED8), size: 26),
+            const SizedBox(width: 10),
+            Text(
+              "About DocuMind",
+              style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "DocuMind is an advanced, next-generation AI-powered document management system designed to make file organization, analytics, and summary generation frictionless.",
+              style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey.shade700, height: 1.5),
+            ),
+            const SizedBox(height: 15),
+            Text(
+              "Key Features:",
+              style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 14, color: const Color(0xFF0F172A)),
+            ),
+            const SizedBox(height: 6),
+            _buildFeatureBullet("📁 Intelligent Folder Management"),
+            _buildFeatureBullet("📑 Realtime Firebase synchronization"),
+            _buildFeatureBullet("🧠 Instant AI-powered Summary generation"),
+            _buildFeatureBullet("📊 Detailed graphical Document Analytics"),
+            _buildFeatureBullet("🔒 Secure cloud infrastructure & sharing controls"),
+            const SizedBox(height: 20),
+            Center(
+              child: Text(
+                "Version 1.0.0",
+                style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey.shade400, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              "Close",
+              style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: const Color(0xFF1D4ED8)),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFeatureBullet(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3.0),
+      child: Text(
+        text,
+        style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey.shade600),
       ),
     );
   }
