@@ -80,3 +80,4 @@ class _SplashScreenState extends State<SplashScreen> {
 // lllpppp
 //  I did nothing but i commiting this code for testing.
 //  // Now my next task is integrate ai in project.
+//  I tried my best to run this app on my android phone but failed. I think there are any issue in project.
