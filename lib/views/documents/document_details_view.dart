@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:documind/views/ai_agent/view.dart';
 import 'package:documind/views/documents/share_document_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -265,6 +266,8 @@ class DocumentDetailsScreen extends StatelessWidget {
       onTap: () {
         if (label == "Share") {
           Get.to(() => ShareDocumentScreen(title: title, fileName: fileName));
+        } else if (label == "Ask AI") {
+          Get.to(() => AIAgentScreen(documentTitle: title));
         }
       },
       child: Container(
