@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../api_key.dart';
-import '../models/chat_message.dart';
+import '../modle/chat_messages.dart';
 
 class ChatService {
   static const String _baseUrl = 'https://api.openai.com/v1/chat/completions';
