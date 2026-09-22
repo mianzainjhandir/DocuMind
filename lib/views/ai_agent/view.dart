@@ -1,8 +1,9 @@
 import 'package:documind/provider/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import '../../modle/chat_messages.dart';
+import '../../models/chat_message.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
