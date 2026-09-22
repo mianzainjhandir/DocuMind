@@ -5,14 +5,15 @@ import 'package:provider/provider.dart';
 
 import '../../models/chat_message.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class AIAgentScreen extends StatefulWidget {
+  final String documentTitle;
+  const AIAgentScreen({super.key, required this.documentTitle});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<AIAgentScreen> createState() => _AIAgentScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _AIAgentScreenState extends State<AIAgentScreen> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -42,25 +43,13 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             const Text(
               "AI Assistant",
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 8,
-                  height: 8,
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                const Text(
-                  "Online",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-              ],
+            Text(
+              widget.documentTitle,
+              style: const TextStyle(color: Colors.grey, fontSize: 11),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
